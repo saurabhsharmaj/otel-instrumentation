@@ -19,9 +19,7 @@ spec:
         - containerPort: 16686 # Jaeger Query UI
         - containerPort: 14268 # Jaeger Collector
         - containerPort: 16685
-        - containerPort: 14250
-        - containerPort: 6831
-        - containerPort: 9411
+
         - containerPort: 4317
         - containerPort: 4318
 
@@ -54,9 +52,6 @@ spec:
   selector:
     app: jaeger
   ports:
-  - name: grpc-http
-    port: 14250
-    targetPort: 0
   - name: c-tchan-trft
     port: 14267
     targetPort: 0
@@ -69,9 +64,5 @@ spec:
   - name: otlp-http
     port: 4318
     targetPort: 0
-  - name: jaeger-compact
-    port: 6831
-    targetPort: 6831
-    protocol: UDP
   type: NodePort
 

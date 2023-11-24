@@ -19,6 +19,8 @@ data:
             endpoint: jaeger:14268      
     processors:
     exporters:
+      prometheus:
+        endpoint: 'otel-prometheus-server:8889'
       logging:
         loglevel: debug
       otlp/jaeger:
@@ -31,6 +33,10 @@ data:
           receivers: [jaeger,otlp]
           processors: []
           exporters: [otlp/jaeger,logging]
+        metrics:
+          receivers: [otlp]
+          processors: []
+          exporters: [prometheus]
 
 ---
 apiVersion: apps/v1
@@ -49,6 +55,9 @@ spec:
     spec:
       containers:
       - name: otelcol
+        ports:
+          - containerPort: 8889 
+          - containerPort: 14268
         args:
         - --config=/conf/collector.yaml
         image: otel/opentelemetry-collector:0.18.0
@@ -73,6 +82,12 @@ spec:
     port: 4317
     protocol: TCP
     targetPort: 4317
+  - name: "8889"
+    port: 8889
+    targetPort: 8889
+  - name: "14268"
+    port: 14268
+    targetPort: 14268
   selector:
     app.kubernetes.io/name: opentelemetrycollector
   type: ClusterIP

@@ -34,4 +34,5 @@ spec:
     - protocol: TCP
       port: 8080
       targetPort: 8080  # Specify the port your Spring Boot app is listening on
+      nodePort: 30011
   type: NodePort  # Use 'LoadBalancer' if running in a cloud environment; use 'NodePort' or 'ClusterIP' for other environments

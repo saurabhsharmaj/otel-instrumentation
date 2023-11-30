@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: opentelemetry-grafana-dashboards
+  namespace: s-otel-demo
   labels:
     
     opentelemetry.io/name: opentelemetry-demo

@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: collector-config
+  namespace: s-otel-demo
 data:
   collector.yaml: |
     receivers:
@@ -27,9 +28,16 @@ data:
       otlp/jaeger:
         endpoint: 'jaeger-collector:4317'
         insecure: true
-        insecure_skip_verify: true          
+        insecure_skip_verify: true
+      file: # the File Exporter, to ingest logs to local file
+        path: ./*
+        rotation:        
     service:
       pipelines:
+        logs/dev:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [logging,file]
         traces:
           receivers: [jaeger,otlp]
           processors: [batch]
@@ -44,6 +52,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: opentelemetrycollector
+  namespace: s-otel-demo
+  
 spec:
   replicas: 1
   selector:
@@ -57,7 +67,7 @@ spec:
       containers:
       - name: otelcol
         ports:
-          - containerPort: 8889 
+          - containerPort: 8888
           - containerPort: 14268
           
         args:
@@ -78,15 +88,16 @@ apiVersion: v1
 kind: Service
 metadata:
   name: opentelemetrycollector
+  namespace: s-otel-demo
 spec:
   ports:
   - name: grpc-otlp
     port: 4317
     protocol: TCP
     targetPort: 4317 
-  - name: "8889"
-    port: 8889
-    targetPort: 8889    
+  - name: "8888"
+    port: 8888
+    targetPort: 8888   
   - name: "14268"
     port: 14268
     targetPort: 14268

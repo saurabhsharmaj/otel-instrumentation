@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: opentelemetry-grafana
+  namespace: s-otel-demo
   labels:
     app.kubernetes.io/name: grafana
     app.kubernetes.io/instance: opentelemetry-demo
@@ -71,6 +72,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: opentelemetry-grafana
+  namespace: s-otel-demo
   labels:
     app.kubernetes.io/name: grafana
     app.kubernetes.io/instance: opentelemetry-demo
@@ -94,6 +96,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: opentelemetry-grafana
+  namespace: s-otel-demo
   labels:
     app.kubernetes.io/name: grafana
     app.kubernetes.io/instance: opentelemetry-demo

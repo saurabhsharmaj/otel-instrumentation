@@ -9,6 +9,7 @@ metadata:
     app.kubernetes.io/version: v2.47.2
     app.kubernetes.io/part-of: prometheus
   name: otel-prometheus-server
+  namespace: s-otel-demo
 data:
   allow-snippet-annotations: "false"
   alerting_rules.yml: |
@@ -30,7 +31,7 @@ data:
         scrape_interval: 10s
         static_configs:
         - targets: 
-          - 'opentelemetrycollector:8889'
+          - 'opentelemetrycollector:8888'
   recording_rules.yml: |
     {}
   rules: |
@@ -49,6 +50,7 @@ metadata:
     app.kubernetes.io/version: v2.47.2
     app.kubernetes.io/part-of: prometheus
   name: otel-prometheus-server
+  namespace: s-otel-demo
 
 spec:
   ports:
@@ -77,6 +79,7 @@ metadata:
     app.kubernetes.io/version: v2.47.2
     app.kubernetes.io/part-of: prometheus
   name: otel-prometheus-server
+  namespace: s-otel-demo
 spec:
   selector:
     matchLabels:

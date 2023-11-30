@@ -4,6 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: price-service-app
+  namespace: s-otel-demo
 spec:
   replicas: 1
   selector:
@@ -27,6 +28,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: price-service
+  namespace: s-otel-demo
 spec:
   selector:
     app: price-service-app

@@ -7,6 +7,8 @@ metadata:
 data:
   collector.yaml: |
     receivers:
+      fluentforward:
+        endpoint: 0.0.0.0:8006
       otlp:
         protocols: 
           grpc:
@@ -35,7 +37,7 @@ data:
     service:
       pipelines:
         logs/dev:
-          receivers: [otlp]
+          receivers: [fluentforward]
           processors: [batch]
           exporters: [logging,file]
         traces:
@@ -69,6 +71,7 @@ spec:
         ports:
           - containerPort: 8888
           - containerPort: 14268
+          - containerPort: 8006
           
         args:
         - --config=/conf/collector.yaml
@@ -101,6 +104,9 @@ spec:
   - name: "14268"
     port: 14268
     targetPort: 14268
+  - name: "8006"
+    port: 8006
+    targetPort: 8006
   selector:
     app.kubernetes.io/name: opentelemetrycollector
   type: ClusterIP
